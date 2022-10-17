@@ -45,7 +45,7 @@ public class UserController {
 		User user = userSevice.findById(id);
 
 		if (user == null) {
-			throw new RuntimeException("Employee is not found - " + id);
+			throw new RuntimeException("User is not found - " + id);
 		}
 		return user;
 	}

@@ -34,7 +34,8 @@ public class UserSeviceImpl implements UserSevice{
 			a = result.get();
 		}
 		else {
-			throw new RuntimeException("khonog tim thay ma"+ maTim);
+			throw new RuntimeException("khonog tim thay ma - "+ maTim);
+//			return null;
 		}
 		
 		return a;

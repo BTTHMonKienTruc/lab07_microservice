@@ -4,7 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,39 +37,46 @@ public class UserRestController {
 
 		return entity.getBody();
 	}
-	
 
 	@GetMapping("users")
 	public List<User> getUsers() {
 		String URI_User = "http://localhost:8080/api/user";
 		User[] forNow = restTemplate.getForObject(URI_User, User[].class);
-		List<User> searchList= Arrays.asList(forNow);
+		List<User> searchList = Arrays.asList(forNow);
 		return searchList;
 	}
-	
+
 	@GetMapping("users/{id}")
 	public User getUser(@PathVariable int id) {
 		return restTemplate.getForObject("/" + id, User.class);
 	}
 	//
-	
-	@PostMapping("/users") //post-for-object
+
+	@PostMapping("/users") // post-for-object
 	public User addEmployee(@RequestBody User user) {
 		return restTemplate.postForObject("/", user, User.class);
 
 	}
-	
+
 	//
 	@PutMapping("/users")
-	public void put(@RequestBody User user) {
-		restTemplate.put("/" + user.getId(), User.class);
-		
-//	    Employee employee = new Employee();
-//	    employee.setId(id);
-//	    employee.setFirstName("Deft");
-//	    employee.setLastName("blog");
-//	    employee.setYearlyIncome(2021);
-//	    restTemplate.put("/" + id, employee);
+	public void updateUser(@RequestBody User user) {
+
+		restTemplate.postForObject("/", user, User.class);
+
 	}
-	
+
+	//
+	@DeleteMapping("/users/{id}")
+	public boolean delUser(@PathVariable int id) {
+		try {
+
+			restTemplate.delete("/" + id);
+			return true;
+		} catch (Exception e) {
+			System.err.println(e);
+			return false;
+		}
+	}
+
 }
